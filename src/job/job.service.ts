@@ -3,7 +3,7 @@ import { PrismaService } from '../common/prisma.service';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
 import { PatchSalaryDto } from './dto/patch-job.dto';
-import { JobStatus } from '../common/prisma-types';
+import { JobStatus } from '@prisma/client';
 
 @Injectable()
 export class JobService {

@@ -1,5 +1,5 @@
 import { IsEnum, IsInt, IsOptional, Min } from 'class-validator';
-import { JobStatus } from '../../common/prisma-types';
+import { JobStatus } from '@prisma/client';
 
 export class PatchSalaryDto {
   @IsOptional()

@@ -1,5 +1,5 @@
 import { IsEnum, IsInt, IsOptional, IsString, Length, Min } from 'class-validator';
-import { EmploymentType } from '../../common/prisma-types';
+import { EmploymentType } from '@prisma/client';
 
 export class CreateJobDto {
   @IsInt()

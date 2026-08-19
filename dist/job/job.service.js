@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../common/prisma.service");
-const prisma_types_1 = require("../common/prisma-types");
+const client_1 = require("@prisma/client");
 let JobService = class JobService {
     prisma;
     constructor(prisma) {
@@ -83,10 +83,10 @@ let JobService = class JobService {
             where: { id: jobId },
             include: { _count: { select: { applications: true } } },
         });
-        if (job && job._count.applications >= (job.cvCap ?? 0) && job.status === prisma_types_1.JobStatus.OPEN) {
+        if (job && job._count.applications >= (job.cvCap ?? 0) && job.status === client_1.JobStatus.OPEN) {
             await this.prisma.job.update({
                 where: { id: jobId },
-                data: { status: prisma_types_1.JobStatus.CLOSED },
+                data: { status: client_1.JobStatus.CLOSED },
             });
         }
     }

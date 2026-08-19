@@ -1,4 +1,4 @@
-import { EmploymentType } from '../../common/prisma-types';
+import { EmploymentType } from '@prisma/client';
 export declare class UpdateJobDto {
     title: string;
     description: string;

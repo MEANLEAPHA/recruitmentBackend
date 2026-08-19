@@ -7,9 +7,9 @@ export declare class JobController {
     constructor(jobService: JobService);
     displayAllJob(): import("@prisma/client").Prisma.PrismaPromise<({
         client: {
+            id: number;
             industryId: number;
             location: string | null;
-            id: number;
             createdAt: Date;
             companyName: string;
             companyDetail: string | null;
@@ -29,6 +29,7 @@ export declare class JobController {
             isVerified: boolean;
         };
     } & {
+        id: number;
         clientId: number;
         title: string;
         description: string | null;
@@ -37,17 +38,16 @@ export declare class JobController {
         location: string | null;
         salary: number | null;
         requestedCount: number;
-        status: import("@prisma/client").$Enums.JobStatus;
-        id: number;
         cvCap: number | null;
+        status: import("@prisma/client").$Enums.JobStatus;
         createdAt: Date;
         updatedAt: Date;
     })[]>;
     searchOneJob(id: number): Promise<{
         client: {
+            id: number;
             industryId: number;
             location: string | null;
-            id: number;
             createdAt: Date;
             companyName: string;
             companyDetail: string | null;
@@ -67,8 +67,8 @@ export declare class JobController {
             isVerified: boolean;
         };
         applications: {
-            status: import("@prisma/client").$Enums.ApplicationStatus;
             id: number;
+            status: import("@prisma/client").$Enums.ApplicationStatus;
             createdAt: Date;
             updatedAt: Date;
             jobId: number;
@@ -78,6 +78,7 @@ export declare class JobController {
             reviewedById: number | null;
         }[];
     } & {
+        id: number;
         clientId: number;
         title: string;
         description: string | null;
@@ -86,9 +87,8 @@ export declare class JobController {
         location: string | null;
         salary: number | null;
         requestedCount: number;
-        status: import("@prisma/client").$Enums.JobStatus;
-        id: number;
         cvCap: number | null;
+        status: import("@prisma/client").$Enums.JobStatus;
         createdAt: Date;
         updatedAt: Date;
     }>;
@@ -100,6 +100,7 @@ export declare class JobController {
         location: string;
     }[];
     createJob(createJobDto: CreateJobDto): Promise<{
+        id: number;
         clientId: number;
         title: string;
         description: string | null;
@@ -108,13 +109,13 @@ export declare class JobController {
         location: string | null;
         salary: number | null;
         requestedCount: number;
-        status: import("@prisma/client").$Enums.JobStatus;
-        id: number;
         cvCap: number | null;
+        status: import("@prisma/client").$Enums.JobStatus;
         createdAt: Date;
         updatedAt: Date;
     }>;
     updateJob(id: number, updateJobDto: UpdateJobDto): Promise<{
+        id: number;
         clientId: number;
         title: string;
         description: string | null;
@@ -123,14 +124,14 @@ export declare class JobController {
         location: string | null;
         salary: number | null;
         requestedCount: number;
-        status: import("@prisma/client").$Enums.JobStatus;
-        id: number;
         cvCap: number | null;
+        status: import("@prisma/client").$Enums.JobStatus;
         createdAt: Date;
         updatedAt: Date;
     }>;
     remove(id: number): Promise<void>;
     updateOnly(id: number, patchSalaryDto: PatchSalaryDto): Promise<{
+        id: number;
         clientId: number;
         title: string;
         description: string | null;
@@ -139,9 +140,8 @@ export declare class JobController {
         location: string | null;
         salary: number | null;
         requestedCount: number;
-        status: import("@prisma/client").$Enums.JobStatus;
-        id: number;
         cvCap: number | null;
+        status: import("@prisma/client").$Enums.JobStatus;
         createdAt: Date;
         updatedAt: Date;
     }>;
