@@ -13,16 +13,9 @@ exports.PatchSalaryDto = void 0;
 const class_validator_1 = require("class-validator");
 const client_1 = require("@prisma/client");
 class PatchSalaryDto {
-    salary;
     status;
 }
 exports.PatchSalaryDto = PatchSalaryDto;
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsInt)(),
-    (0, class_validator_1.Min)(0),
-    __metadata("design:type", Number)
-], PatchSalaryDto.prototype, "salary", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsEnum)(client_1.JobStatus),

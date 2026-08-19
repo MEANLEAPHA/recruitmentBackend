@@ -6,6 +6,5 @@ export declare class CreateJobDto {
     employmentType: EmploymentType;
     industryId?: number;
     location?: string;
-    salary?: number;
     requestedCount: number;
 }

@@ -18,6 +18,73 @@ let JobService = class JobService {
     constructor(prisma) {
         this.prisma = prisma;
     }
+    async searchJobs(dto) {
+        if (dto.search) {
+            const page = dto.page ?? 1;
+            const limit = dto.limit ?? 20;
+            const skip = (page - 1) * limit;
+            const where = {
+                OR: [
+                    { title: { contains: dto.search, mode: 'insensitive' } },
+                    { client: { companyName: { contains: dto.search, mode: 'insensitive' } } },
+                ],
+            };
+            const [jobs, total] = await Promise.all([
+                this.prisma.job.findMany({
+                    where,
+                    include: { client: true },
+                    orderBy: { createdAt: 'desc' },
+                    skip: Number(skip),
+                    take: Number(limit),
+                }),
+                this.prisma.job.count({ where }),
+            ]);
+            return { jobs, total, page, limit, totalPages: Math.ceil(total / limit) };
+        }
+        const page = dto.page ?? 1;
+        const limit = dto.limit ?? 20;
+        const skip = (page - 1) * limit;
+        const where = {
+            status: 'OPEN',
+        };
+        if (dto.employmentType?.length) {
+            where.employmentType = { in: dto.employmentType };
+        }
+        if (dto.industryIds?.length) {
+            where.industryId = { in: dto.industryIds };
+        }
+        if (dto.provinceIds?.length) {
+            where.provinceId = { in: dto.provinceIds };
+        }
+        if (dto.clientIds?.length) {
+            where.clientId = { in: dto.clientIds };
+        }
+        if (dto.salaryMin !== undefined || dto.salaryMax !== undefined) {
+            const min = dto.salaryMin ?? 0;
+            const max = dto.salaryMax ?? 2147483647;
+            where.OR = [
+                { salaryType: 'FIXED', salaryFixed: { gte: min, lte: max } },
+                { salaryType: 'RANGE', salaryMin: { lte: max }, salaryMax: { gte: min } },
+            ];
+        }
+        const [jobs, total] = await Promise.all([
+            this.prisma.job.findMany({
+                where,
+                include: { client: true, industry: true, province: true },
+                orderBy: { createdAt: 'desc' },
+                skip: Number(skip),
+                take: Number(limit),
+            }),
+            this.prisma.job.count({ where }),
+        ]);
+        return {
+            jobs,
+            total,
+            page,
+            limit,
+            totalPages: Math.ceil(total / limit),
+        };
+    }
     findAll() {
         return this.prisma.job.findMany({
             include: { client: true },
@@ -33,50 +100,9 @@ let JobService = class JobService {
             throw new common_1.NotFoundException(`Job with id ${id} not found`);
         return job;
     }
-    async createJob(createJobDto) {
-        return this.prisma.job.create({
-            data: {
-                clientId: createJobDto.clientId,
-                title: createJobDto.title,
-                description: createJobDto.description,
-                employmentType: createJobDto.employmentType,
-                industryId: createJobDto.industryId,
-                location: createJobDto.location,
-                salary: createJobDto.salary,
-                requestedCount: createJobDto.requestedCount,
-                cvCap: createJobDto.requestedCount * 2,
-            },
-        });
-    }
-    async updateJob(id, updateJobDto) {
-        await this.findOne(id);
-        return this.prisma.job.update({
-            where: { id },
-            data: {
-                title: updateJobDto.title,
-                description: updateJobDto.description,
-                employmentType: updateJobDto.employmentType,
-                industryId: updateJobDto.industryId,
-                location: updateJobDto.location,
-                salary: updateJobDto.salary,
-                requestedCount: updateJobDto.requestedCount,
-                cvCap: updateJobDto.requestedCount * 2,
-            },
-        });
-    }
     async removeJob(id) {
         await this.findOne(id);
         await this.prisma.job.delete({ where: { id } });
-    }
-    async updateOne(id, patchSalaryDto) {
-        await this.findOne(id);
-        return this.prisma.job.update({
-            where: { id },
-            data: {
-                ...(patchSalaryDto.salary !== undefined && { salary: patchSalaryDto.salary }),
-                ...(patchSalaryDto.status !== undefined && { status: patchSalaryDto.status }),
-            },
-        });
     }
     async checkAndAutoClose(jobId) {
         const job = await this.prisma.job.findUnique({

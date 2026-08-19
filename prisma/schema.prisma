@@ -33,9 +33,13 @@ enum JobStatus {
 enum EmploymentType {
   FULLTIME
   PARTTIME
-  CONTRACT
   INTERNSHIP
-  TEMPORARY
+}
+
+enum SalaryType {
+  FIXED
+  RANGE
+  NEGOTIABLE
 }
 
 // ============ User (Staff) ============
@@ -153,8 +157,15 @@ model Job {
   industryId Int?      @map("industry_id")
   industry   Industry? @relation(fields: [industryId], references: [id])
 
+
+  provinceId Int?  @map("province_id")
+  province Province? @relation(fields: [provinceId], references: [id])
   location String? @db.VarChar(150)
-  salary   Int?
+
+  salaryType  SalaryType @default(NEGOTIABLE) @map("salary_type")
+  salaryFixed Int?       @map("salary_fixed")
+  salaryMin   Int?       @map("salary_min")
+  salaryMax   Int?       @map("salary_max")
 
   requestedCount Int  @map("requested_count") // e.g. client wants 10
   cvCap          Int? @map("cv_cap") // auto = requestedCount * 2, staff can override
@@ -168,6 +179,7 @@ model Job {
 
   @@index([clientId])
   @@index([industryId])
+  @@index([provinceId])
   @@index([status])
   @@map("job")
 }
@@ -213,6 +225,17 @@ model Industry {
   clients Client[]
 
   @@map("industry")
+}
+
+
+model Province {
+  id Int @id @default(autoincrement())
+  name String  @unique @db.VarChar(100)
+  createdAt DateTime @default(now()) @db.Timestamptz() @map("created_at")
+
+  job Job[]
+
+  @@map("province")
 }
 
 // ============ Report / Feedback ============

@@ -14,15 +14,16 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobController = void 0;
 const common_1 = require("@nestjs/common");
-const create_job_dto_1 = require("./dto/create-job.dto");
-const update_job_dto_1 = require("./dto/update-job.dto");
-const patch_job_dto_1 = require("./dto/patch-job.dto");
+const search_job_dto_1 = require("./dto/search-job.dto");
 const job_service_1 = require("./job.service");
 const job_guard_1 = require("./job.guard");
 let JobController = class JobController {
     jobService;
     constructor(jobService) {
         this.jobService = jobService;
+    }
+    searchJobs(searchJobDto) {
+        return this.jobService.searchJobs(searchJobDto);
     }
     displayAllJob() {
         return this.jobService.findAll();
@@ -41,20 +42,18 @@ let JobController = class JobController {
             },
         ];
     }
-    createJob(createJobDto) {
-        return this.jobService.createJob(createJobDto);
-    }
-    updateJob(id, updateJobDto) {
-        return this.jobService.updateJob(id, updateJobDto);
-    }
     remove(id) {
         return this.jobService.removeJob(id);
     }
-    updateOnly(id, patchSalaryDto) {
-        return this.jobService.updateOne(id, patchSalaryDto);
-    }
 };
 exports.JobController = JobController;
+__decorate([
+    (0, common_1.Get)('search'),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [search_job_dto_1.SearchJobDto]),
+    __metadata("design:returntype", void 0)
+], JobController.prototype, "searchJobs", null);
 __decorate([
     (0, common_1.Get)('alljobs'),
     __metadata("design:type", Function),
@@ -80,21 +79,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], JobController.prototype, "findAllJob", null);
 __decorate([
-    (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_job_dto_1.CreateJobDto]),
-    __metadata("design:returntype", void 0)
-], JobController.prototype, "createJob", null);
-__decorate([
-    (0, common_1.Put)(':id'),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, update_job_dto_1.UpdateJobDto]),
-    __metadata("design:returntype", void 0)
-], JobController.prototype, "updateJob", null);
-__decorate([
     (0, common_1.Delete)(':id'),
     (0, common_1.UseGuards)(job_guard_1.JobGuard),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
@@ -102,14 +86,6 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], JobController.prototype, "remove", null);
-__decorate([
-    (0, common_1.Patch)(':id'),
-    __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, patch_job_dto_1.PatchSalaryDto]),
-    __metadata("design:returntype", void 0)
-], JobController.prototype, "updateOnly", null);
 exports.JobController = JobController = __decorate([
     (0, common_1.Controller)('job'),
     __metadata("design:paramtypes", [job_service_1.JobService])

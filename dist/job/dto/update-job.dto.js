@@ -18,7 +18,6 @@ class UpdateJobDto {
     employmentType;
     industryId;
     location;
-    salary;
     requestedCount;
 }
 exports.UpdateJobDto = UpdateJobDto;
@@ -47,12 +46,6 @@ __decorate([
     (0, class_validator_1.Length)(2, 150),
     __metadata("design:type", String)
 ], UpdateJobDto.prototype, "location", void 0);
-__decorate([
-    (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsInt)(),
-    (0, class_validator_1.Min)(0),
-    __metadata("design:type", Number)
-], UpdateJobDto.prototype, "salary", void 0);
 __decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.Min)(1),

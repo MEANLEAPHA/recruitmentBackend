@@ -25,10 +25,10 @@ export class CreateJobDto {
   @Length(2, 150)
   location?: string;
 
-  @IsOptional()
-  @IsInt()
-  @Min(0)
-  salary?: number;
+  // @IsOptional()
+  // @IsInt()
+  // @Min(0)
+  // salary?: number;
 
   @IsInt()
   @Min(1)

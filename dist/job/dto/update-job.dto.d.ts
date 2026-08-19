@@ -5,6 +5,5 @@ export declare class UpdateJobDto {
     employmentType: EmploymentType;
     industryId?: number;
     location?: string;
-    salary?: number;
     requestedCount: number;
 }

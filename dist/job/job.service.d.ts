@@ -1,10 +1,56 @@
 import { PrismaService } from '../common/prisma.service';
-import { CreateJobDto } from './dto/create-job.dto';
-import { UpdateJobDto } from './dto/update-job.dto';
-import { PatchSalaryDto } from './dto/patch-job.dto';
+import { SearchJobDto } from './dto/search-job.dto';
 export declare class JobService {
     private prisma;
     constructor(prisma: PrismaService);
+    searchJobs(dto: SearchJobDto): Promise<{
+        jobs: ({
+            client: {
+                id: number;
+                industryId: number;
+                location: string | null;
+                createdAt: Date;
+                companyName: string;
+                companyDetail: string | null;
+                logoUrl: string | null;
+                bannerUrl: string | null;
+                contactName: string;
+                email: string;
+                password: string | null;
+                teamSize: bigint | null;
+                facebookLink: string | null;
+                youtubeLink: string | null;
+                titokLink: string | null;
+                instagramLink: string | null;
+                linkedinLink: string | null;
+                websiteLink: string | null;
+                agreementFileUrl: string | null;
+                isVerified: boolean;
+            };
+        } & {
+            id: number;
+            clientId: number;
+            title: string;
+            description: string | null;
+            employmentType: import("@prisma/client").$Enums.EmploymentType;
+            industryId: number | null;
+            provinceId: number | null;
+            location: string | null;
+            salaryType: import("@prisma/client").$Enums.SalaryType;
+            salaryFixed: number | null;
+            salaryMin: number | null;
+            salaryMax: number | null;
+            requestedCount: number;
+            cvCap: number | null;
+            status: import("@prisma/client").$Enums.JobStatus;
+            createdAt: Date;
+            updatedAt: Date;
+        })[];
+        total: number;
+        page: number;
+        limit: number;
+        totalPages: number;
+    }>;
     findAll(): import("@prisma/client").Prisma.PrismaPromise<({
         client: {
             id: number;
@@ -35,8 +81,12 @@ export declare class JobService {
         description: string | null;
         employmentType: import("@prisma/client").$Enums.EmploymentType;
         industryId: number | null;
+        provinceId: number | null;
         location: string | null;
-        salary: number | null;
+        salaryType: import("@prisma/client").$Enums.SalaryType;
+        salaryFixed: number | null;
+        salaryMin: number | null;
+        salaryMax: number | null;
         requestedCount: number;
         cvCap: number | null;
         status: import("@prisma/client").$Enums.JobStatus;
@@ -84,38 +134,12 @@ export declare class JobService {
         description: string | null;
         employmentType: import("@prisma/client").$Enums.EmploymentType;
         industryId: number | null;
+        provinceId: number | null;
         location: string | null;
-        salary: number | null;
-        requestedCount: number;
-        cvCap: number | null;
-        status: import("@prisma/client").$Enums.JobStatus;
-        createdAt: Date;
-        updatedAt: Date;
-    }>;
-    createJob(createJobDto: CreateJobDto): Promise<{
-        id: number;
-        clientId: number;
-        title: string;
-        description: string | null;
-        employmentType: import("@prisma/client").$Enums.EmploymentType;
-        industryId: number | null;
-        location: string | null;
-        salary: number | null;
-        requestedCount: number;
-        cvCap: number | null;
-        status: import("@prisma/client").$Enums.JobStatus;
-        createdAt: Date;
-        updatedAt: Date;
-    }>;
-    updateJob(id: number, updateJobDto: UpdateJobDto): Promise<{
-        id: number;
-        clientId: number;
-        title: string;
-        description: string | null;
-        employmentType: import("@prisma/client").$Enums.EmploymentType;
-        industryId: number | null;
-        location: string | null;
-        salary: number | null;
+        salaryType: import("@prisma/client").$Enums.SalaryType;
+        salaryFixed: number | null;
+        salaryMin: number | null;
+        salaryMax: number | null;
         requestedCount: number;
         cvCap: number | null;
         status: import("@prisma/client").$Enums.JobStatus;
@@ -123,20 +147,5 @@ export declare class JobService {
         updatedAt: Date;
     }>;
     removeJob(id: number): Promise<void>;
-    updateOne(id: number, patchSalaryDto: PatchSalaryDto): Promise<{
-        id: number;
-        clientId: number;
-        title: string;
-        description: string | null;
-        employmentType: import("@prisma/client").$Enums.EmploymentType;
-        industryId: number | null;
-        location: string | null;
-        salary: number | null;
-        requestedCount: number;
-        cvCap: number | null;
-        status: import("@prisma/client").$Enums.JobStatus;
-        createdAt: Date;
-        updatedAt: Date;
-    }>;
     checkAndAutoClose(jobId: number): Promise<void>;
 }
