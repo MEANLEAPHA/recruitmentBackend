@@ -11,11 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateJobDto = void 0;
 const class_validator_1 = require("class-validator");
+const prisma_types_1 = require("../../common/prisma-types");
 class UpdateJobDto {
     title;
     description;
     employmentType;
-    industry;
+    industryId;
     location;
     salary;
     requestedCount;
@@ -32,16 +33,14 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateJobDto.prototype, "description", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(2, 50),
+    (0, class_validator_1.IsEnum)(prisma_types_1.EmploymentType),
     __metadata("design:type", String)
 ], UpdateJobDto.prototype, "employmentType", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(2, 100),
-    __metadata("design:type", String)
-], UpdateJobDto.prototype, "industry", void 0);
+    (0, class_validator_1.IsInt)(),
+    __metadata("design:type", Number)
+], UpdateJobDto.prototype, "industryId", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),

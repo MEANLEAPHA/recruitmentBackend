@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobService = void 0;
 const common_1 = require("@nestjs/common");
 const prisma_service_1 = require("../common/prisma.service");
-const client_1 = require("../../generated/prisma/client");
+const prisma_types_1 = require("../common/prisma-types");
 let JobService = class JobService {
     prisma;
     constructor(prisma) {
@@ -40,7 +40,7 @@ let JobService = class JobService {
                 title: createJobDto.title,
                 description: createJobDto.description,
                 employmentType: createJobDto.employmentType,
-                industry: createJobDto.industry,
+                industryId: createJobDto.industryId,
                 location: createJobDto.location,
                 salary: createJobDto.salary,
                 requestedCount: createJobDto.requestedCount,
@@ -56,7 +56,7 @@ let JobService = class JobService {
                 title: updateJobDto.title,
                 description: updateJobDto.description,
                 employmentType: updateJobDto.employmentType,
-                industry: updateJobDto.industry,
+                industryId: updateJobDto.industryId,
                 location: updateJobDto.location,
                 salary: updateJobDto.salary,
                 requestedCount: updateJobDto.requestedCount,
@@ -83,10 +83,10 @@ let JobService = class JobService {
             where: { id: jobId },
             include: { _count: { select: { applications: true } } },
         });
-        if (job && job._count.applications >= job.cvCap && job.status === client_1.JobStatus.OPEN) {
+        if (job && job._count.applications >= (job.cvCap ?? 0) && job.status === prisma_types_1.JobStatus.OPEN) {
             await this.prisma.job.update({
                 where: { id: jobId },
-                data: { status: client_1.JobStatus.CLOSED },
+                data: { status: prisma_types_1.JobStatus.CLOSED },
             });
         }
     }

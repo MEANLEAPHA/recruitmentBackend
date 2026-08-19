@@ -4,4 +4,5 @@ export {
   ApplicationStatus,
   StaffRole,
   PrismaClient,
-} from '../../generated/prisma';
+  
+} from '@prisma/client';

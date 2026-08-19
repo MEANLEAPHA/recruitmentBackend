@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PatchSalaryDto = void 0;
 const class_validator_1 = require("class-validator");
-const prisma_1 = require("../../../generated/prisma");
+const prisma_types_1 = require("../../common/prisma-types");
 class PatchSalaryDto {
     salary;
     status;
@@ -25,7 +25,7 @@ __decorate([
 ], PatchSalaryDto.prototype, "salary", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEnum)(prisma_1.JobStatus),
+    (0, class_validator_1.IsEnum)(prisma_types_1.JobStatus),
     __metadata("design:type", String)
 ], PatchSalaryDto.prototype, "status", void 0);
 //# sourceMappingURL=patch-job.dto.js.map
