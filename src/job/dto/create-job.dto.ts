@@ -1,4 +1,5 @@
-import { IsInt, IsOptional, IsString, Length, Min } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Length, Min } from 'class-validator';
+import { EmploymentType } from '../../common/prisma-types';
 
 export class CreateJobDto {
   @IsInt()
@@ -12,14 +13,12 @@ export class CreateJobDto {
   @Length(10, 5000)
   description: string;
 
-  @IsString()
-  @Length(2, 50)
-  employmentType: string;
+  @IsEnum(EmploymentType)
+  employmentType: EmploymentType;
 
   @IsOptional()
-  @IsString()
-  @Length(2, 100)
-  industry?: string;
+  @IsInt()
+  industryId?: number;
 
   @IsOptional()
   @IsString()

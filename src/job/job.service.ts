@@ -33,7 +33,7 @@ export class JobService {
         title: createJobDto.title,
         description: createJobDto.description,
         employmentType: createJobDto.employmentType,
-        industry: createJobDto.industry,
+        industryId: createJobDto.industryId,
         location: createJobDto.location,
         salary: createJobDto.salary,
         requestedCount: createJobDto.requestedCount,
@@ -52,7 +52,7 @@ export class JobService {
         title: updateJobDto.title,
         description: updateJobDto.description,
         employmentType: updateJobDto.employmentType,
-        industry: updateJobDto.industry,
+        industryId: updateJobDto.industryId,
         location: updateJobDto.location,
         salary: updateJobDto.salary,
         requestedCount: updateJobDto.requestedCount,
@@ -88,7 +88,7 @@ export class JobService {
       include: { _count: { select: { applications: true } } },
     });
 
-    if (job && job._count.applications >= job.cvCap && job.status === JobStatus.OPEN) {
+    if (job && job._count.applications >= (job.cvCap ?? 0) && job.status === JobStatus.OPEN) {
       await this.prisma.job.update({
         where: { id: jobId },
         data: { status: JobStatus.CLOSED },
